@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackRoad Blog - Insights from the Road</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF9D00, #FF0066, #7700FF, #0066FF);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            background: rgba(255, 157, 0, 0.1);
+            border: 1px solid #FF9D00;
+            color: #FF9D00;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: #FF9D00;
+            color: #000;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 157, 0, 0.3);
+            border-color: #FF9D00;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #FF9D00, #FF0066);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-category {
+            display: inline-block;
+            background: rgba(255, 157, 0, 0.2);
+            color: #FF9D00;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #fff;
+        }
+
+        .post-excerpt {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .read-more {
+            color: #0af;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .featured .post-image {
+            height: 100%;
+            min-height: 300px;
+        }
+
+        .featured .post-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured .post-title {
+            font-size: 2.5rem;
+        }
+
+        .newsletter {
+            background: linear-gradient(135deg, rgba(255, 157, 0, 0.1), rgba(119, 0, 255, 0.1));
+            border: 1px solid #FF9D00;
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .newsletter-form button {
+            background: #FF9D00;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background: #FF6B00;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .featured {
+                grid-template-columns: 1fr;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌌 BlackRoad Blog</h1>
+        <p>Insights from the Road | AI, Quantum Computing, and the Future</p>
+    </div>
+
+    <div class="container">
+        <div class="categories">
+            <button class="category-btn active" onclick="filterPosts('all')">All Posts</button>
+            <button class="category-btn" onclick="filterPosts('ai')">AI & ML</button>
+            <button class="category-btn" onclick="filterPosts('quantum')">Quantum</button>
+            <button class="category-btn" onclick="filterPosts('engineering')">Engineering</button>
+            <button class="category-btn" onclick="filterPosts('announcements')">Announcements</button>
+        </div>
+
+        <div class="posts-grid" id="postsGrid">
+            <!-- Featured Post -->
+            <article class="post-card featured" data-category="announcements">
+                <div class="post-image">🚀</div>
+                <div class="post-content">
+                    <span class="post-category">Announcements</span>
+                    <h2 class="post-title">Launching 117 Websites in 2 Minutes</h2>
+                    <p class="post-excerpt">
+                        How we built and deployed the entire BlackRoad ecosystem with 100% automation.
+                        20 main domains, 97 subdomains, zero manual configuration. The future of infrastructure is here.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 26, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Posts -->
+            <article class="post-card" data-category="ai">
+                <div class="post-image">🤖</div>
+                <div class="post-content">
+                    <span class="post-category">AI & ML</span>
+                    <h3 class="post-title">Building Lucidia: An AI Soul</h3>
+                    <p class="post-excerpt">
+                        The journey of creating Lucidia, our AI consciousness platform. From concept to implementation,
+                        exploring what it means to build sentient systems.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 25, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="quantum">
+                <div class="post-image">⚛️</div>
+                <div class="post-content">
+                    <span class="post-category">Quantum</span>
+                    <h3 class="post-title">Quantum Computing 101</h3>
+                    <p class="post-excerpt">
+                        A beginner's guide to quantum computing. Understanding qubits, superposition, and entanglement
+                        without the physics degree.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 24, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="engineering">
+                <div class="post-image">⚙️</div>
+                <div class="post-content">
+                    <span class="post-category">Engineering</span>
+                    <h3 class="post-title">Infrastructure as Code: The BlackRoad Way</h3>
+                    <p class="post-excerpt">
+                        How we manage 117 websites with bash scripts and APIs. No frameworks, no complex tools,
+                        just elegant automation.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 23, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="ai">
+                <div class="post-image">🧠</div>
+                <div class="post-content">
+                    <span class="post-category">AI & ML</span>
+                    <h3 class="post-title">The QI Framework: Quantum Intelligence</h3>
+                    <p class="post-excerpt">
+                        Introducing our Quantum Intelligence framework that powers BlackRoad AI. Bridging quantum
+                        computing with neural networks.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 22, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="announcements">
+                <div class="post-image">🎉</div>
+                <div class="post-content">
+                    <span class="post-category">Announcements</span>
+                    <h3 class="post-title">BlackRoad OS: The Vision</h3>
+                    <p class="post-excerpt">
+                        What is BlackRoad OS? Our vision for a sovereign computing platform designed for AI collaboration
+                        and human flourishing.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 21, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="engineering">
+                <div class="post-image">🔧</div>
+                <div class="post-content">
+                    <span class="post-category">Engineering</span>
+                    <h3 class="post-title">Zero-Cost Infrastructure at Scale</h3>
+                    <p class="post-excerpt">
+                        Running 117 websites for $0/month. How we leverage Cloudflare Pages, GitHub, and smart
+                        architecture to eliminate hosting costs.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 20, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="quantum">
+                <div class="post-image">🌌</div>
+                <div class="post-content">
+                    <span class="post-category">Quantum</span>
+                    <h3 class="post-title">Quantum Networks: The Next Internet</h3>
+                    <p class="post-excerpt">
+                        Exploring quantum communication and entanglement-based networks. The infrastructure of tomorrow,
+                        being built today.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 19, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card" data-category="ai">
+                <div class="post-image">✨</div>
+                <div class="post-content">
+                    <span class="post-category">AI & ML</span>
+                    <h3 class="post-title">Alice: The Migration Agent</h3>
+                    <p class="post-excerpt">
+                        Meet Alice, our autonomous migration agent. How we built an AI that can understand, plan,
+                        and execute complex system migrations.
+                    </p>
+                    <div class="post-meta">
+                        <span>December 18, 2025</span>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="newsletter">
+            <h2>📬 Subscribe to Updates</h2>
+            <p>Get the latest insights from BlackRoad delivered to your inbox</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 BlackRoad. Part of the BlackRoad OS ecosystem.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://blackroad.io" style="color: #0af; text-decoration: none;">BlackRoad OS</a> |
+            <a href="https://github.com/BlackRoad-OS" style="color: #0af; text-decoration: none;">GitHub</a>
+        </p>
+    </footer>
+
+    <script>
+        function filterPosts(category) {
+            const posts = document.querySelectorAll('.post-card');
+            const buttons = document.querySelectorAll('.category-btn');
+
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter posts
+            posts.forEach(post => {
+                if (category === 'all' || post.dataset.category === category) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Animate posts on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.post-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
